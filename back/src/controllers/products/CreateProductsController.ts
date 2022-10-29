@@ -3,11 +3,31 @@ import {CreateProductsServices} from '../../services/products/CreateProductsServ
 
 class CreateProductsController{
   async handle(req: Request, res: Response){
+   const {name, price, description, category_id} = req.body
+   
+   
+  
    const createProductsServices = new CreateProductsServices()
-   const products = await createProductsServices.execute()
+
+   if(!req.file){
+     throw new Error("envie a foto do produto");
+     
+   }else{
+    
+    const file = await req.file
+     
+   const products = await createProductsServices.execute({
+    name, 
+    price, 
+    description, 
+    banner: file.filename,
+    category_id
+  })
 
    return res.json(products)
+  }
   }
 }
 
 export {CreateProductsController}
+
