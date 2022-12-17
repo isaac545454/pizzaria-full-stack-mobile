@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+button{
+  cursor: pointer;
+}
+
+body{ 
+  background: #1d1d2e;
+}
+
+body, input, select,textarea,button{
+  font: 400 1rem sans-serif;
+}
+
+@media (max-width: 1020px) {
+  html{
+    font-size: 93%;
+  }
+}
+
+@media (max-width: 720px) {
+  html{
+    font-size: 87%;
+  }
+}
