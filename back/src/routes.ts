@@ -8,8 +8,9 @@ import { AuthUserController } from "./controllers/user/AuthUserController";
 import { DetailsUserController } from "./controllers/user/DetailsUserController";
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
-import { CreateProductsController } from "./controllers/Products/CreateProductsController";
+import { CreateProductsController } from "./controllers/products/CreateProductsController";
 import { ListCategoryByIdController } from "./controllers/products/ListCategoryByIdController";
+import {CreateOrderController} from './controllers/order/CreateOrderComtroller'
 
 //importanções de middlewares
 import { isAuth } from "./middlewares/isAuth";
@@ -45,5 +46,12 @@ router.get(
   isAuth,
   new ListCategoryByIdController().handle
 );
+
+//rotas order 
+router.post(
+  "/order",
+  isAuth,
+  new CreateOrderController().handle
+)
 
 export { router };
