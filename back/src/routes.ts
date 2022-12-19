@@ -17,6 +17,8 @@ import {RemoveItemsController} from './controllers/order/RemoveItemsController'
 import {SendOrderController} from './controllers/order/SendOrderController'
 import { ListOrderController } from './controllers/order/ListOrderController'
 import {DetailsOrderController} from './controllers/order/DetailsOrderController'
+import { FinishOrderController } from "./controllers/order/FinishOrderController";
+
 //importanções de middlewares
 import { isAuth } from "./middlewares/isAuth";
 
@@ -112,5 +114,12 @@ router.get(
   isAuth,
   new DetailsOrderController().handle
 )
+
+router.patch(
+  "/orders/finish",
+  isAuth,
+  new FinishOrderController().handle
+)
+
 
 export { router };
