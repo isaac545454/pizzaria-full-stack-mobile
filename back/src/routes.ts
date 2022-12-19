@@ -14,6 +14,7 @@ import {CreateOrderController} from './controllers/order/CreateOrderComtroller'
 import {RemoveOrderController} from './controllers/order/RemoveOrderController'
 import {AddOrderItemsController} from './controllers/order/AddOrderItemsController'
 import {RemoveItemsController} from './controllers/order/RemoveItemsController'
+import {SendOrderController} from './controllers/order/SendOrderController'
 
 
 //importanções de middlewares
@@ -26,16 +27,34 @@ const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
 
 //rota para criar usuario
-router.post("/user", new CreateUserController().handle);
+router.post(
+  "/user", 
+  new CreateUserController().handle
+  );
 
 //rota para atenticar usuario
-router.post("/session", new AuthUserController().handle);
+router.post(
+  "/session", 
+  new AuthUserController().handle
+);
 
-router.get("/me", isAuth, new DetailsUserController().handle);
+router.get(
+  "/me",
+   isAuth, 
+   new DetailsUserController().handle
+);
 
 //rotas category
-router.post("/category", isAuth, new CreateCategoryController().handle);
-router.get("/category", isAuth, new ListCategoryController().handle);
+router.post(
+  "/category", 
+  isAuth, 
+  new CreateCategoryController().handle
+);
+
+router.get(
+  "/category", 
+  isAuth, 
+  new ListCategoryController().handle);
 
 //rotas products
 router.post(
@@ -57,20 +76,29 @@ router.post(
   isAuth,
   new CreateOrderController().handle
 )
+
 router.delete(
   '/order',
   isAuth,
   new RemoveOrderController().handle
 )
+
 router.post(
   "/order/add",
   isAuth,
   new AddOrderItemsController().handle
 )
+
 router.delete(
   "/order/remove",
   isAuth,
   new RemoveItemsController().handle
+)
+
+router.patch(
+  "/order/send",
+  isAuth,
+  new SendOrderController().handle
 )
 
 export { router };
