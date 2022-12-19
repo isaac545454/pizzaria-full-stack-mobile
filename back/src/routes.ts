@@ -13,6 +13,8 @@ import { ListCategoryByIdController } from "./controllers/products/ListCategoryB
 import {CreateOrderController} from './controllers/order/CreateOrderComtroller'
 import {RemoveOrderController} from './controllers/order/RemoveOrderController'
 import {AddOrderItemsController} from './controllers/order/AddOrderItemsController'
+import {RemoveItemsController} from './controllers/order/RemoveItemsController'
+
 
 //importanções de middlewares
 import { isAuth } from "./middlewares/isAuth";
@@ -64,6 +66,11 @@ router.post(
   "/order/add",
   isAuth,
   new AddOrderItemsController().handle
+)
+router.delete(
+  "/order/remove",
+  isAuth,
+  new RemoveItemsController().handle
 )
 
 export { router };
