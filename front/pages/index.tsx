@@ -6,10 +6,25 @@ import Link from "next/link";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
+//context
+import { FormEvent, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
 //img
 import logoImg from "../public/logo.svg";
 
 export default function Home() {
+  const { signIn } = useContext(AuthContext);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    let data = {
+      email: "isaac",
+      password: "123456",
+    };
+    await signIn(data);
+  };
+
   return (
     <>
       <Head>
@@ -24,14 +39,13 @@ export default function Home() {
           className="mb-5"
         />
         <div className="">
-          <form className="flex flex-col w-[40vw] max-[700px]:w-[80vw]">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col w-[40vw] max-[700px]:w-[80vw]"
+          >
             <Input typeInput="text" placeholderInput="Email" />
             <Input typeInput="text" placeholderInput="Senha" />
-            <Button
-              loading={false}
-              name="Acessar"
-              onClick={() => alert("ola")}
-            />
+            <Button loading={false} name="Acessar" />
           </form>
           <div className="flex justify-center my-4 hover:text-gray-400 transition-colors">
             <Link href="/signup">Não possui uma Conta? Cadastre-se</Link>
