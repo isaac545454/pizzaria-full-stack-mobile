@@ -16,16 +16,20 @@ import logoImg from "../public/logo.svg";
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { signIn } = useContext(AuthContext);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    if (email === "" || password === "") return alert("preencha os campos");
+    setIsLoading(true);
     let data = {
       email,
       password,
     };
     await signIn(data);
+    setIsLoading(false);
   };
 
   return (
@@ -47,18 +51,18 @@ export default function Home() {
             className="flex flex-col w-[40vw] max-[700px]:w-[80vw]"
           >
             <Input
-              type="text"
+              type="email"
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
             <Input
-              type="text"
+              type="password"
               placeholder="Senha"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
-            <Button loading={false} name="Acessar" />
+            <Button loading={isLoading} name="Acessar" />
           </form>
           <div className="flex justify-center my-4 hover:text-gray-400 transition-colors">
             <Link href="/signup">Não possui uma Conta? Cadastre-se</Link>

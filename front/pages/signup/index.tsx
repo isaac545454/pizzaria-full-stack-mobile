@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FormEvent, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +8,17 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 
 export default function index() {
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!name || !email || !password) return alert("preencha todos os campos");
+    setIsLoading(true);
+  };
+
   return (
     <>
       <Head>
@@ -26,13 +37,28 @@ export default function index() {
             <h1 className="font-bold text-2xl">Criando sua conta</h1>
           </div>
           <form className="flex flex-col w-[40vw] max-[700px]:w-[80vw]">
-            <Input typeInput="text" placeholderInput="Nome" />
-            <Input typeInput="text" placeholderInput="Email" />
-            <Input typeInput="text" placeholderInput="Senha" />
+            <Input
+              type="text"
+              placeholder="Nome"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+            />
+            <Input
+              type="email"
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+            <Input
+              type="password"
+              placeholder="Senha"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            />
             <Button
-              loading={false}
+              loading={isLoading}
               name="Cadastrar"
-              onClick={() => alert("ola")}
+              onClick={handleSubmit}
             />
           </form>
         </div>
