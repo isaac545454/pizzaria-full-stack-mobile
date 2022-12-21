@@ -3,18 +3,26 @@ import { api, api as Api } from "../services/apiClient";
 
 import { destroyCookie, setCookie, parseCookies } from "nookies";
 import Router from "next/router";
+import { log } from "console";
 
 interface Value {
   user: UserProps | null;
   isAuthenticated: boolean;
   signIn: (credemtials: SignInProps) => Promise<void>;
   signOut: () => void;
+  signUp: (credemtials: SignUpProps) => Promise<void>;
 }
 
 type UserProps = {
   id: string;
   name: string;
   email: string;
+};
+
+type SignUpProps = {
+  name: string;
+  email: string;
+  password: string;
 };
 
 type SignInProps = {
@@ -69,8 +77,25 @@ export function AuthProvider({ children }: Props) {
     } catch (error) {}
   };
 
+  const signUp = async ({ name, email, password }: SignUpProps) => {
+    try {
+      const response = await api.post("/user", {
+        name,
+        email,
+        password,
+      });
+
+      console.log("cadastrado");
+      Router.push("/");
+    } catch (error) {
+      console.log("erri", error);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, signIn, signOut, signUp }}
+    >
       {children}
     </AuthContext.Provider>
   );

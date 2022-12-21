@@ -1,8 +1,10 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useContext } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import logoImg from "../../public/logo.svg";
+import { AuthContext } from "../../context/AuthContext";
+
 //components
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -12,11 +14,15 @@ export default function index() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { signUp } = useContext(AuthContext);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!name || !email || !password) return alert("preencha todos os campos");
     setIsLoading(true);
+
+    await signUp({ name, email, password });
+    setIsLoading(false)
   };
 
   return (
@@ -36,7 +42,10 @@ export default function index() {
           <div className="flex justify-center my-6">
             <h1 className="font-bold text-2xl">Criando sua conta</h1>
           </div>
-          <form className="flex flex-col w-[40vw] max-[700px]:w-[80vw]">
+          <form
+            className="flex flex-col w-[40vw] max-[700px]:w-[80vw]"
+            onSubmit={handleSubmit}
+          >
             <Input
               type="text"
               placeholder="Nome"
@@ -55,11 +64,7 @@ export default function index() {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
-            <Button
-              loading={isLoading}
-              name="Cadastrar"
-              onClick={handleSubmit}
-            />
+            <Button loading={isLoading} name="Cadastrar" />
           </form>
         </div>
       </div>
