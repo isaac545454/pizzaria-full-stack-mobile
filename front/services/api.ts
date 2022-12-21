@@ -12,6 +12,7 @@ const api = axios.create({
         Authorization: `Bearer ${cookies['@nextauth.token']}`
     }
 })
+
 api.interceptors.response.use(response=> {
     return response
 }, (error: AxiosError) => {
@@ -27,4 +28,6 @@ api.interceptors.response.use(response=> {
     return Promise.reject(error)
 
 })
+
+return api
 }
