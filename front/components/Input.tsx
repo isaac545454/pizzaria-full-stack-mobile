@@ -1,30 +1,26 @@
-import React from "react";
+import React, { InputHTMLAttributes } from "react";
 
-interface Props {
-  typeInput: string;
-  placeholderInput: string;
-}
+interface Props extends InputHTMLAttributes<HTMLInputElement> {}
 
-export default function Input({ typeInput, placeholderInput }: Props) {
+interface PropsArea extends InputHTMLAttributes<HTMLTextAreaElement> {}
+
+export default function Input({ ...rest }: Props) {
   return (
-    <div>
-      <input
-        type={typeInput}
-        className={`mb-4 h-10 rounded-lg bg-dark-900 text-white p-4 border
+    <input
+      {...rest}
+      className={`mb-4 h-10 rounded-lg bg-dark-900 text-white p-4 border
          border-gray-200 placeholder:text-gray-400 w-full`}
-        placeholder={placeholderInput}
-      />
-    </div>
+    />
   );
 }
 
-export function TextArea({ typeInput, placeholderInput }: Props) {
+export function TextArea({ ...res }: PropsArea) {
   return (
     <div>
       <textarea
+        {...res}
         className={`mb-4 h-10 rounded-lg bg-dark-900 text-white p-4 border
        border-gray-200 placeholder:text-gray-400 w-full`}
-        placeholder={placeholderInput}
       ></textarea>
     </div>
   );
