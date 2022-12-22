@@ -4,6 +4,7 @@ import { api, api as Api } from "../services/apiClient";
 import { destroyCookie, setCookie, parseCookies } from "nookies";
 import Router from "next/router";
 import { log } from "console";
+import { toast } from "react-toastify";
 
 interface Value {
   user: UserProps | null;
@@ -70,11 +71,15 @@ export function AuthProvider({ children }: Props) {
       });
 
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
+
+      toast.success("Logado com sucesso!");
       //redirect
       Router.push("/deshboard");
 
       console.log(response);
-    } catch (error) {}
+    } catch (error) {
+      toast.error("error ao acessar");
+    }
   };
 
   const signUp = async ({ name, email, password }: SignUpProps) => {
@@ -84,11 +89,11 @@ export function AuthProvider({ children }: Props) {
         email,
         password,
       });
-
-      console.log("cadastrado");
+      toast.success("conta cadastrada com sucesso!");
       Router.push("/");
     } catch (error) {
       console.log("erri", error);
+      toast.error("erro ao cadastrar");
     }
   };
 

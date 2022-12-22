@@ -12,6 +12,7 @@ import { AuthContext } from "../context/AuthContext";
 
 //img
 import logoImg from "../public/logo.svg";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -22,7 +23,9 @@ export default function Home() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (email === "" || password === "") return alert("preencha os campos");
+    if (email === "" || password === "") {
+      return toast.warn("preencha os campos");
+    }
     setIsLoading(true);
     let data = {
       email,

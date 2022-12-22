@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 //components
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import { toast } from "react-toastify";
 
 export default function index() {
   const [name, setName] = useState<string>("");
@@ -18,11 +19,12 @@ export default function index() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    if (!name || !email || !password) return alert("preencha todos os campos");
+    if (!name || !email || !password)
+      return toast.warn("preencha todos os campos");
     setIsLoading(true);
 
     await signUp({ name, email, password });
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   return (
