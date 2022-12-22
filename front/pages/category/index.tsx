@@ -1,13 +1,22 @@
 import Head from "next/head";
 import React, { FormEvent, useState } from "react";
 import Header from "../../components/Header";
+import { setupAPIClient } from "../../services/api";
+import { toast } from "react-toastify";
+
+import { canSSRAuth } from "../../ultils/canSSRAuth";
 
 export default function index() {
   const [name, setName] = useState<string>("");
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!name) return;
-    alert("ols");
+    const apiClient = setupAPIClient();
+    await apiClient.post("/category", {
+      name: name,
+    });
+    toast.success("Categoria cadastrada com sucesso!");
+    setName("");
   };
   return (
     <>
@@ -35,3 +44,9 @@ export default function index() {
     </>
   );
 }
+
+export const getServerSideProps = canSSRAuth(async (ctx) => {
+  return {
+    props: {},
+  };
+});
