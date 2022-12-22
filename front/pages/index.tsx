@@ -5,6 +5,7 @@ import Link from "next/link";
 //component
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { canSSRGuest } from "../ultils/canSSRGuest";
 
 //context
 import { FormEvent, useContext, useState } from "react";
@@ -13,6 +14,7 @@ import { AuthContext } from "../context/AuthContext";
 //img
 import logoImg from "../public/logo.svg";
 import { toast } from "react-toastify";
+import { GetServerSideProps } from "next";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -75,3 +77,9 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps = canSSRGuest(async (ctx) => {
+  return {
+    props: {},
+  };
+});
