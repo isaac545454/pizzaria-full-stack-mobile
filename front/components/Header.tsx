@@ -20,7 +20,7 @@ export default function Header() {
         </Link>
         <nav className="flex items-center text-white">
           <Link
-            href="/categiry"
+            href="/category"
             className="px-2 inline-block relative hover:text-red-500 transition-colors"
           >
             Categorias
