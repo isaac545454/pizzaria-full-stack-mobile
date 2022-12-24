@@ -18,7 +18,6 @@ export default function SignIn() {
   const handleLogin = () => {
     if (!email || !password) return alert("Preencha todos os campos");
     signIn(email, password);
-    alert("Aaa");
   };
 
   return (
