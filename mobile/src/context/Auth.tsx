@@ -3,6 +3,7 @@ import React, { useState, createContext, Children, ReactNode } from "react";
 type Auth = {
   user: UserProps;
   isAuthenticated: boolean;
+  signIn: (email: string, password: string) => Promise<void>;
 };
 
 type UserProps = {
@@ -28,8 +29,12 @@ export function AuthProvider({ children }: Props) {
 
   const isAuthenticated = !!user.name;
 
+  async function signIn(email: string, password: string) {
+    console.log(email, password);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
       {children}
     </AuthContext.Provider>
   );

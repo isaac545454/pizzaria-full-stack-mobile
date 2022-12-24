@@ -13,11 +13,11 @@ export default function SignIn() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const { user } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
   const handleLogin = () => {
     if (!email || !password) return alert("Preencha todos os campos");
-
+    signIn(email, password);
     alert("Aaa");
   };
 
