@@ -6,6 +6,7 @@ import { setupAPIClient } from "../../services/api";
 import { useState } from "react";
 import Modal from "react-modal";
 import ModalOrder from "../../components/Modal";
+import { toast } from "react-toastify";
 
 interface Props {
   data: OrderItem[];
@@ -74,12 +75,20 @@ export default function Deshboard({ data }: Props) {
       },
     });
 
-    setModalItem(dataFake);
+    setModalItem(response.data);
     setShow(true);
   };
 
   const handleModalClose = () => {
     setShow(false);
+  };
+
+  const handleRefresh = async () => {
+    const apiClient = setupAPIClient();
+    const { data } = await apiClient.get("/orders");
+
+    setOrderList(data);
+    toast.success("Lista atualizada");
   };
 
   Modal.setAppElement("#__next");
@@ -97,11 +106,16 @@ export default function Deshboard({ data }: Props) {
               Ultimos pedidos
             </h1>
 
-            <button>
+            <button onClick={handleRefresh}>
               <FiRefreshCcw color="#3FFFA3" size={30} />
             </button>
           </div>
           <article className="flex flex-col my-4">
+            {orderList.length === 0 && (
+              <div>
+                <span className="text-emerald-50">AINDA NÃO A PEDIDOS</span>
+              </div>
+            )}
             {orderList.map((order) => (
               <section
                 className="flex bg-dark-900 mb-4 items-center rounded-md"
@@ -116,15 +130,6 @@ export default function Deshboard({ data }: Props) {
                 </button>
               </section>
             ))}
-            <section className="flex bg-dark-900 mb-4 items-center rounded-md">
-              <button
-                className="bg-transparent text-white text-2xl h-[60px] items-center flex"
-                onClick={() => showOrder("aaa")}
-              >
-                <div className="w-2 bg-green-primary h-[60px] rounded-tl-md rounded-bl-md mr-4"></div>
-                <span>mesa 38</span>
-              </button>
-            </section>
           </article>
         </main>
         {show && (

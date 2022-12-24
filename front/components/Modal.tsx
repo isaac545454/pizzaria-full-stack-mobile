@@ -2,6 +2,8 @@ import React from "react";
 import Modal from "react-modal";
 import { OrderProps } from "../pages/deshboard/index";
 import { FiX } from "react-icons/fi";
+import { setupAPIClient } from "../services/api";
+import { toast } from "react-toastify";
 
 interface Props {
   isOpen: boolean;
@@ -22,8 +24,17 @@ export default function ModalOrder({ isOpen, onRequestClose, order }: Props) {
     },
   };
 
-  const handleFinish = () => {
-    alert("aaaaa");
+  const handleFinish = async (id: string) => {
+    const api = setupAPIClient();
+    try {
+      await api.put("/orders/finish", {
+        order_id: id,
+      });
+      onRequestClose();
+      toast.success("pedidos finalizados");
+    } catch (error) {
+      toast.error("Ops... houve um error: ");
+    }
   };
 
   return (
@@ -58,7 +69,7 @@ export default function ModalOrder({ isOpen, onRequestClose, order }: Props) {
 
           <button
             className="bg-dark-900 text-red-600 px-4 py-2 mt-10"
-            onClick={handleFinish}
+            onClick={() => handleFinish(order[0].order_id)}
           >
             Concluir Pedido
           </button>
