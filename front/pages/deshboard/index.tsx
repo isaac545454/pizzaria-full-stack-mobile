@@ -48,7 +48,7 @@ const dataFake: OrderProps[] = [
     product: {
       id: "dakdkakak",
       name: "pizza",
-      description: "pizza",
+      description: "pizza de mussarela",
       price: "35.00",
       banner: "aaaaaa",
     },
