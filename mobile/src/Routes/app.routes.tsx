@@ -8,7 +8,11 @@ const Stack = createNativeStackNavigator();
 function appRoutes() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Deshboard" component={Deshboard} />
+      <Stack.Screen
+        name="Deshboard"
+        component={Deshboard}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }
