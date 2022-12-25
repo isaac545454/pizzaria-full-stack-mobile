@@ -1,10 +1,14 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useContext } from "react";
+import { AuthContext } from "../../context/Auth";
 
 export default function Deshboard() {
+  const { signOut } = useContext(AuthContext);
   return (
     <View>
-      <Text>index</Text>
+      <TouchableOpacity onPress={signOut}>
+        <Text>SAIR</Text>
+      </TouchableOpacity>
     </View>
   );
 }

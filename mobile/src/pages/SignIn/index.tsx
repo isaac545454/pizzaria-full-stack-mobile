@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/Auth";
@@ -13,7 +14,7 @@ export default function SignIn() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const { signIn } = useContext(AuthContext);
+  const { signIn, loadingAuth } = useContext(AuthContext);
 
   const handleLogin = () => {
     if (!email || !password) return alert("Preencha todos os campos");
@@ -41,7 +42,8 @@ export default function SignIn() {
         />
 
         <TouchableOpacity style={styles.AreaBtn} onPress={handleLogin}>
-          <Text style={styles.textBtn}>Acessar</Text>
+          {!loadingAuth && <Text style={styles.textBtn}>Acessar</Text>}
+          {loadingAuth && <ActivityIndicator size={25} color="#fff" />}
         </TouchableOpacity>
       </View>
     </View>
