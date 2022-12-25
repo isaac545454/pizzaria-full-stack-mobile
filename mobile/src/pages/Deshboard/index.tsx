@@ -6,11 +6,27 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/Auth";
+import { useNavigation } from "@react-navigation/native";
+import { stackPromiseList } from "../../Routes/app.routes";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export default function Deshboard() {
+  const [newTable, setNewTable] = useState<string>("");
   const { signOut } = useContext(AuthContext);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<stackPromiseList>>();
+
+  const OpenOrder = async () => {
+    if (newTable === "") return;
+
+    navigation.navigate("Order", {
+      number: 12,
+      order_id: "ada",
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Novo Pedido</Text>
@@ -19,8 +35,10 @@ export default function Deshboard() {
         placeholderTextColor="#f0f0f0"
         style={styles.input}
         keyboardType="numeric"
+        value={newTable}
+        onChangeText={(text) => setNewTable(text)}
       />
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={OpenOrder}>
         <Text style={styles.buttonText}>Abrir Mesa</Text>
       </TouchableOpacity>
     </SafeAreaView>
