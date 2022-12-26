@@ -6,8 +6,9 @@ import {
   TextInput,
 } from "react-native";
 import React from "react";
-import { useRoute, RouteProp } from "@react-navigation/native";
+import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
+import { api } from "../../services";
 
 type Props = {
   Order: {
@@ -20,11 +21,27 @@ type OrderRuteProps = RouteProp<Props, "Order">;
 
 export default function Order() {
   const route = useRoute<OrderRuteProps>();
+  const navigation = useNavigation();
+
+  const CloseOrder = async () => {
+    try {
+      await api.delete("/order", {
+        params: {
+          order_id: route.params?.order_id,
+        },
+      });
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+      alert("ops...");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Mesa {route.params.number}</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={CloseOrder}>
           <Feather name="trash-2" size={29} color="#ff3f4b" />
         </TouchableOpacity>
       </View>
@@ -42,6 +59,15 @@ export default function Order() {
           keyboardType="numeric"
           style={[styles.select, { width: "60%", textAlign: "center" }]}
         />
+      </View>
+      <View style={styles.actions}>
+        <TouchableOpacity style={styles.btnAdd}>
+          <Text style={styles.btnAddText}> + </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btnFinish}>
+          <Text style={styles.btnText}>Avançar</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -85,5 +111,39 @@ const styles = StyleSheet.create({
   qtdText: {
     fontSize: 20,
     fontWeight: "bold",
+    color: "#fff",
+  },
+  actions: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  btnAdd: {
+    backgroundColor: "#3fd1ff",
+    borderRadius: 4,
+    height: 40,
+    justifyContent: "center",
+
+    width: "24%",
+    alignItems: "center",
+  },
+  btnAddText: {
+    color: "#101026",
+    fontWeight: "bold",
+    fontSize: 24,
+  },
+  btnFinish: {
+    backgroundColor: "#3fffa3",
+    height: 40,
+    width: "70%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+  },
+  btnText: {
+    color: "#101026",
+    fontWeight: "bold",
+    fontSize: 20,
   },
 });

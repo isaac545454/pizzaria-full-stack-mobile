@@ -11,6 +11,17 @@ import { AuthContext } from "../../context/Auth";
 import { useNavigation } from "@react-navigation/native";
 import { stackPromiseList } from "../../Routes/app.routes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { api } from "../../services/index";
+
+interface ReqTable {
+  created_at: string;
+  draft: boolean;
+  id: string;
+  name: string | null;
+  status: boolean;
+  table: number;
+  updated_at: string;
+}
 
 export default function Deshboard() {
   const [newTable, setNewTable] = useState<string>("");
@@ -21,10 +32,15 @@ export default function Deshboard() {
   const OpenOrder = async () => {
     if (newTable === "") return;
 
-    navigation.navigate("Order", {
-      number: 12,
-      order_id: "ada",
+    const { data } = await api.post<ReqTable>("/order", {
+      table: Number(newTable),
     });
+
+    navigation.navigate("Order", {
+      number: data.table,
+      order_id: data.id,
+    });
+    setNewTable("");
   };
 
   return (
