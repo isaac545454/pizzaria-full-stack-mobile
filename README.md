@@ -1,3 +1,3 @@
-<h1>em construção(back)</h1>
+<h1>em construção(mobile)</h1>
 
-pizaria com react, react native, node e postgres
+pizaria com  Next, react, react native, node e postgres
