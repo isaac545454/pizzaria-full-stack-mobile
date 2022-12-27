@@ -36,6 +36,8 @@ export default function Deshboard() {
       table: Number(newTable),
     });
 
+    console.log(data.id);
+
     navigation.navigate("Order", {
       number: data.table,
       order_id: data.id,
