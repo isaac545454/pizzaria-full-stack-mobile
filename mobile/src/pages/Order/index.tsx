@@ -25,15 +25,32 @@ interface Category {
   id: string;
   name: string;
 }
+type Product = {
+  id: string;
+  name: string;
+  // price: string;
+  // description: string;
+  // banner: string;
+  // created_at: string;
+  // updated_at: string;
+  // category_id: string;
+};
 
 export default function Order() {
   const route = useRoute<OrderRuteProps>();
   const navigation = useNavigation();
-  const [category, setCategory] = useState<Array<Category | []>>([]);
+  const [category, setCategory] = useState<Category[] | []>([]);
   const [categorySelected, setCategorySelected] = useState<Category>({
     id: "1",
     name: "pizza",
   });
+  const [product, setProduct] = useState<Product[] | []>([]);
+  const [productSelected, setProductSelected] = useState<Product>({
+    id: "",
+    name: "",
+  });
+  const [modalProductVisible, setModalProductVisible] =
+    useState<boolean>(false);
   const [amount, setAmount] = useState<string>("1");
   const [modalCategoryVisible, setModalCategoryVisible] =
     useState<boolean>(false);
@@ -46,6 +63,20 @@ export default function Order() {
     }
     LoadingInfo();
   }, []);
+
+  useEffect(() => {
+    async function loadingProducts() {
+      const response = await api.get("/category/products", {
+        params: {
+          category_id: categorySelected?.id,
+        },
+      });
+      setProduct(response.data);
+      setProductSelected(response.data[0]);
+    }
+
+    loadingProducts();
+  }, [categorySelected]);
 
   const CloseOrder = async () => {
     try {
@@ -83,9 +114,11 @@ export default function Order() {
         </TouchableOpacity>
       )}
 
-      <TouchableOpacity style={styles.select}>
-        <Text style={{ color: "#fff" }}>Pizza</Text>
-      </TouchableOpacity>
+      {product.length !== 0 && (
+        <TouchableOpacity style={styles.select}>
+          <Text style={{ color: "#fff" }}>{productSelected?.name}</Text>
+        </TouchableOpacity>
+      )}
       <View style={styles.qtdContainer}>
         <Text style={styles.qtdText}>Quantidade</Text>
         <TextInput
