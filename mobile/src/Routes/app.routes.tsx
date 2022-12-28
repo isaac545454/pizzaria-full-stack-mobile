@@ -11,7 +11,10 @@ export type stackPromiseList = {
     number: number | string;
     order_id: string;
   };
-  FinishOrder: undefined;
+  FinishOrder: {
+    number: number;
+    order_id: string;
+  };
 };
 
 const Stack = createNativeStackNavigator<stackPromiseList>();

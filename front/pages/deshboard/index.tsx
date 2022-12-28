@@ -40,28 +40,6 @@ export type OrderProps = {
   };
 };
 
-const dataFake: OrderProps[] = [
-  {
-    id: "kkkkkk",
-    amount: 2,
-    order_id: "kakkddk",
-    product_id: "jjjjjjjj",
-    product: {
-      id: "dakdkakak",
-      name: "pizza",
-      description: "pizza de mussarela",
-      price: "35.00",
-      banner: "aaaaaa",
-    },
-    order: {
-      id: "mmmmmmm",
-      table: "35",
-      status: false,
-      name: "isaac,",
-    },
-  },
-];
-
 export default function Deshboard({ data }: Props) {
   const [orderList, setOrderList] = useState<OrderItem[]>(data || []);
   const [ModalItem, setModalItem] = useState<OrderProps[]>([]);
@@ -126,7 +104,7 @@ export default function Deshboard({ data }: Props) {
                   onClick={() => showOrder(order.id)}
                 >
                   <div className="w-2 bg-green-primary h-[60px] rounded-tl-md rounded-bl-md mr-4"></div>
-                  <span>{order.name}</span>
+                  <span>Mesa {order.table}</span>
                 </button>
               </section>
             ))}
