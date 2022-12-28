@@ -13,7 +13,8 @@ import { Feather } from "@expo/vector-icons";
 import { api } from "../../services";
 import ModalPicker from "../../components/Modal";
 import ListItem from "../../components/ListItem";
-import { log } from "console";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { stackPromiseList } from "../../Routes/app.routes";
 
 type Props = {
   Order: {
@@ -47,7 +48,8 @@ type Item = {
 
 export default function Order() {
   const route = useRoute<OrderRuteProps>();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<stackPromiseList>>();
   const [category, setCategory] = useState<Category[] | []>([]);
   const [categorySelected, setCategorySelected] = useState<Category>({
     id: "1",
@@ -139,6 +141,10 @@ export default function Order() {
     setItem(array);
   };
 
+  const handleFinishOrder = () => {
+    navigation.navigate("FinishOrder");
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -183,11 +189,9 @@ export default function Order() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[
-            styles.btnFinish,
-            { opacity: items?.length === undefined ? 0.3 : 1 },
-          ]}
-          disabled={items?.length === undefined}
+          style={[styles.btnFinish, { opacity: items?.length === 0 ? 0.3 : 1 }]}
+          disabled={items?.length === 0}
+          onPress={handleFinishOrder}
         >
           <Text style={styles.btnText}>Avançar</Text>
         </TouchableOpacity>
